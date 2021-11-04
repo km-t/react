@@ -1,4 +1,6 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Sample from './Sample';
+
 function App() {
     return (
         <BrowserRouter>
@@ -12,6 +14,9 @@ function App() {
                 </Route>
                 <Route path="/contact">
                     <Contact />
+                </Route>
+                <Route path="/sample">
+                    <Sample />
                 </Route>
             </Switch>
         </BrowserRouter>
