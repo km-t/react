@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Router } from 'react-router-dom';
 import Sample from './Sample'
 
 ReactDOM.render(
@@ -11,6 +10,13 @@ ReactDOM.render(
         <App />
     </React.StrictMode>,
     document.getElementById('root')
+);
+
+ReactDOM.render(
+    <React.StrictMode>
+        <Sample />
+    </React.StrictMode>,
+    document.getElementById('leaf')
 );
 
 // If you want to start measuring performance in your app, pass a function
