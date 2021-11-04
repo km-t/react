@@ -10,5 +10,7 @@ RUN yarn global add create-react-app && \
 
 COPY ./src/* ./${appName}/src
 COPY ./public/* ./${appName}/public
+COPY ./entry-point.sh ./
+RUN chmod 777 entry-point.sh
 
-ENTRYPOINT [ "yarn", "--cwd", "./sample-react", "start" ]
+ENTRYPOINT ["sh", "entry-point.sh", "sample-react"]
