@@ -6,7 +6,8 @@ ENV appName=sample-react
 
 RUN yarn global add create-react-app && \
     create-react-app ${appName} && \
-    yarn add 'react-router-dom@^5.2.0'
+    yarn add 'react-router-dom@^5.2.0' && \
+    rm -rf ./${appName}/src/*
 
 COPY ./src/* ./${appName}/src
 COPY ./public/* ./${appName}/public

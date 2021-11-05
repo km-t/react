@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Sample from './Sample';
 
 function App() {
     return (
@@ -15,15 +14,12 @@ function App() {
                 <Route path="/contact">
                     <Contact />
                 </Route>
-                <Route path="/sample">
-                    <Sample />
-                </Route>
             </Switch>
         </BrowserRouter>
     );
 }
 
-const  Home = () => {
+const Home = () => {
     return <h2>Home</h2>;
 }
 
