@@ -22,15 +22,14 @@ class Square extends React.Component {
     }
 
     /**
-     *
-     *
      * @return {*} 
      * @memberof Square
      */
     render() {
         return (
             <button className="square"
-                onClick={() => { this.setState({ value: 'X' }); }}>
+                onClick={() => { this.props.onClick(); }}
+            >
                 {this.props.value}
             </button>
         );
@@ -38,8 +37,6 @@ class Square extends React.Component {
 }
 
 /**
- *
- *
  * @class Board 盤面を表すクラス
  * @extends {React.Component}
  */
@@ -58,8 +55,18 @@ class Board extends React.Component {
     }
 
     /**
+     * クリック時の処理を行う関数
+     * @param {*} i
+     * @memberof Board
+     */
+    handleClick(i){
+        const squares = this.state.squares.slice();
+        squares[i] = "X";
+        this.setState({squares: squares});
+    }
+
+    /**
      * 1マスを描画する関数
-     *
      * @param {*} i
      * @return {*} 
      * @memberof Board
@@ -74,8 +81,6 @@ class Board extends React.Component {
     }
 
     /**
-     *
-     *
      * @return {*} 
      * @memberof Board
      */
@@ -106,16 +111,12 @@ class Board extends React.Component {
 }
 
 /**
- *
- *
  * @class Game ゲーム全般を表すクラス
  * @extends {React.Component}
  */
 class Game extends React.Component {
 
     /**
-     *
-     *
      * @return {*} 
      * @memberof Game
      */
