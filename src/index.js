@@ -1,7 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+/**
+ *
+ *
+ * @class Square 1マスを表すクラス
+ * @extends {React.Component}
+ */
 class Square extends React.Component {
+
+    /**
+     * Creates an instance of Square.
+     * @param {*} props
+     * @memberof Square
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -9,21 +21,64 @@ class Square extends React.Component {
         };
     }
 
+    /**
+     *
+     *
+     * @return {*} 
+     * @memberof Square
+     */
     render() {
         return (
             <button className="square"
-                onClick={() => { this.setState({value: 'X'}); }}>
+                onClick={() => { this.setState({ value: 'X' }); }}>
                 {this.props.value}
             </button>
         );
     }
 }
 
+/**
+ *
+ *
+ * @class Board 盤面を表すクラス
+ * @extends {React.Component}
+ */
 class Board extends React.Component {
-    renderSquare(i) {
-        return <Square value={i} />;
+
+    /**
+     * Creates an instance of Board.
+     * @param {*} props
+     * @memberof Board
+     */
+    constructor(props) {
+        super(props);
+        this.state = {
+            squares: Array(9).fill(null),
+        };
     }
 
+    /**
+     * 1マスを描画する関数
+     *
+     * @param {*} i
+     * @return {*} 
+     * @memberof Board
+     */
+    renderSquare(i) {
+        return (
+            <Square
+                value={this.state.squares[i]}
+                onClick={() => this.handleClick(i)}
+            />
+        );
+    }
+
+    /**
+     *
+     *
+     * @return {*} 
+     * @memberof Board
+     */
     render() {
         const status = 'Next player: X';
 
@@ -50,7 +105,20 @@ class Board extends React.Component {
     }
 }
 
+/**
+ *
+ *
+ * @class Game ゲーム全般を表すクラス
+ * @extends {React.Component}
+ */
 class Game extends React.Component {
+
+    /**
+     *
+     *
+     * @return {*} 
+     * @memberof Game
+     */
     render() {
         return (
             <div className="game">
