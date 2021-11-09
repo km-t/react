@@ -1,20 +1,23 @@
+import React from "react";
+
+/**
+ * 1マスを描画する関数
+ * @param {*} props
+ * @return {*}
+ */
+function Square(props) {
+  return (
+    <button className="square" onClick={props.onClick}>
+      {props.value}
+    </button>
+  );
+}
+
 /**
  * @class Board 盤面を表すクラス
  * @extends {React.Component}
  */
-class Board extends React.Component {
-  /**
-   * 1マスを描画する関数
-   * @param {*} props
-   * @return {*}
-   */
-  Square(props) {
-    return (
-      <button className='square' onClick={props.onClick}>
-        {props.value}
-      </button>
-    );
-  }
+export class Board extends React.Component {
   /**
    * 1マスを描画する関数
    * @param {*} i
@@ -37,17 +40,17 @@ class Board extends React.Component {
   render() {
     return (
       <div>
-        <div className='board-row'>
+        <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
           {this.renderSquare(2)}
         </div>
-        <div className='board-row'>
+        <div className="board-row">
           {this.renderSquare(3)}
           {this.renderSquare(4)}
           {this.renderSquare(5)}
         </div>
-        <div className='board-row'>
+        <div className="board-row">
           {this.renderSquare(6)}
           {this.renderSquare(7)}
           {this.renderSquare(8)}
