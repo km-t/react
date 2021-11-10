@@ -98,9 +98,14 @@ export class Game extends React.Component {
     const moves = history.map((step, move) => {
       const point = "(" + step.move[0] + "," + step.move[1] + ")";
       const desc = move ? "Go to move # " + move + point : "Go to game start";
+      let className = "un-selected";
+      if (step === current) {
+        className = "selected";
+      }
+
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button className={className} onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
       );
     });
