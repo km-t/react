@@ -38,24 +38,17 @@ export class Board extends React.Component {
    * @memberof Board
    */
   render() {
+    const items = [];
+    const boardSize = Math.sqrt(this.props.squares.length);
+    for (let i = 0; i < boardSize; i++) {
+      let item = [];
+      for (let j = 0; j < boardSize; j++) {
+        item.push(this.renderSquare(i * boardSize + j));
+      }
+      items.push(<div>{item}</div>);
+    }
     return (
-      <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
+      <div>{items}</div>
     );
   }
 }

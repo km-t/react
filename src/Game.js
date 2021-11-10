@@ -11,7 +11,7 @@ export class Game extends React.Component {
     this.state = {
       history: [
         {
-          squares: Array(9).fill(null),
+          squares: Array(props.boardSize ** 2).fill(null),
           move: Array(2).fill(null),
         },
       ],
@@ -67,7 +67,7 @@ export class Game extends React.Component {
       history: history.concat([
         {
           squares: squares,
-          move: [i%3, parseInt(i/3)],
+          move: [i%this.props.boardSize, parseInt(i/this.props.boardSize)],
         },
       ]),
       stepNumber: history.length,
