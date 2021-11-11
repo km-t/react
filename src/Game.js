@@ -11,7 +11,9 @@ export class Game extends React.Component {
     this.state = {
       history: [
         {
-          squares: Array(props.boardSize ** 2).fill(null),
+          squares: Array(props.boardSize ** 1)
+            .fill()
+            .map(() => Array(props.boardSize ** 1).fill(null)),
           move: Array(2).fill(null),
         },
       ],
@@ -20,34 +22,77 @@ export class Game extends React.Component {
     };
   }
 
+  calculateWinnerWithRight(squares) {
+    for (let y = 0; y < squares.length; y++) {
+      for (let x = 0; x < squares[0].length - 2; x++) {
+        if (
+          squares[y][x] &&
+          squares[y][x] === squares[y][x + 1] &&
+          squares[y][x] === squares[y][x + 2]
+        ) {
+          return squares[y][x];
+        }
+      }
+    }
+    return null;
+  }
+  calculateWinnerWithDown(squares) {
+    for (let y = 0; y < squares.length - 2; y++) {
+      for (let x = 0; x < squares[0].length; x++) {
+        if (
+          squares[y][x] &&
+          squares[y][x] === squares[y + 1][x] &&
+          squares[y][x] === squares[y + 2][x]
+        ) {
+          return squares[y][x];
+        }
+      }
+    }
+    return null;
+  }
+
+  calculateWinnerWithRightDown(squares) {
+    for (let y = 0; y < squares.length - 2; y++) {
+      for (let x = 0; x < squares[0].length - 2; x++) {
+        if (
+          squares[y][x] &&
+          squares[y][x] === squares[y + 1][x + 1] &&
+          squares[y][x] === squares[y + 2][x + 2]
+        ) {
+          return squares[y][x];
+        }
+      }
+    }
+    return null;
+  }
+  
+
+  calculateWinnerWithLeftDown(squares) {
+    for (let y = 0; y < squares.length - 2; y++) {
+      for (let x = 2; x < squares[0].length; x++) {
+        if (
+          squares[y][x] &&
+          squares[y][x] === squares[y + 1][x - 1] &&
+          squares[y][x] === squares[y + 2][x - 2]
+        ) {
+          return squares[y][x];
+        }
+      }
+    }
+    return null;
+  }
+
   /**
    * 勝敗判定をする関数
    *
    * @param {*} squares
    * @return 勝敗がついているならその人が置いているマスの番号を返す。勝敗がついていないならnullを返す
    */
-  calculateWinner(squares) {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
-      if (
-        squares[a] &&
-        squares[a] === squares[b] &&
-        squares[b] === squares[c]
-      ) {
-        return squares[a];
-      }
+  isExistWinner(squares) {
+    if (this.calculateWinnerWithDown(squares) || this.calculateWinnerWithRight(squares) || this.calculateWinnerWithRightDown(squares) || this.calculateWinnerWithLeftDown(squares)) {
+      return true;
     }
-    return null;
+    return false;
   }
 
   /**
@@ -55,19 +100,19 @@ export class Game extends React.Component {
    * @param {*} i
    * @memberof Board
    */
-  handleClick(i) {
+  handleClick(x, y) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
-    const squares = current.squares.slice();
-    if (this.calculateWinner(squares) || squares[i]) {
+    const squares = JSON.parse(JSON.stringify(current.squares));
+    if (this.isExistWinner(squares) || squares[y][x]) {
       return;
     }
-    squares[i] = this.state.xIsNext ? "X" : "O";
+    squares[y][x] = this.state.xIsNext ? "X" : "O";
     this.setState({
       history: history.concat([
         {
           squares: squares,
-          move: [i%this.props.boardSize, parseInt(i/this.props.boardSize)],
+          move: [x, y],
         },
       ]),
       stepNumber: history.length,
@@ -93,7 +138,9 @@ export class Game extends React.Component {
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
-    const winner = this.calculateWinner(current.squares);
+    console.log("stepnumber="+this.state.stepNumber);
+    console.log(history[this.state.stepNumber]);
+    const winner = this.isExistWinner(current.squares);
 
     const moves = history.map((step, move) => {
       const point = "(" + step.move[0] + "," + step.move[1] + ")";
@@ -105,13 +152,15 @@ export class Game extends React.Component {
 
       return (
         <li key={move}>
-          <button className={className} onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button className={className} onClick={() => this.jumpTo(move)}>
+            {desc}
+          </button>
         </li>
       );
     });
     let status;
     if (winner) {
-      status = "Winner" + winner;
+      status = "Winner" + (this.state.xIsNext ? "O" : "X");
     } else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
@@ -121,7 +170,7 @@ export class Game extends React.Component {
         <div className="game-board">
           <Board
             squares={current.squares}
-            onClick={(i) => this.handleClick(i)}
+            onClick={(x, y) => this.handleClick(x, y)}
           />
         </div>
         <div className="game-info">
